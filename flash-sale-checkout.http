@@ -1,0 +1,18 @@
+@baseUrl = http://localhost:8080
+@produtoId = 1
+
+### Criar produto
+POST {{baseUrl}}/produtos
+Content-Type: application/json
+
+{
+  "nome": "PS5",
+  "preco": -3999.90,
+  "estoque": 10
+}
+
+### Buscar produto por ID
+GET {{baseUrl}}/produtos/{{produtoId}}
+
+### Criar pedido para o produto
+POST {{baseUrl}}/pedidos/{{produtoId}}

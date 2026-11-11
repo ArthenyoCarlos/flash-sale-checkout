@@ -1,5 +1,6 @@
 package br.com.arthenyo.flash_sale_checkout.entity;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import jakarta.persistence.Column;
@@ -33,6 +34,10 @@ public class Pedido {
     public Pedido(Produto produto) {
         this.produto = produto;
         this.dataPedido = Instant.now();
+    }
+
+    public BigDecimal getValorTotal(){
+        return produto.getPreco();
     }
 
     public Long getId() {

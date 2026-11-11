@@ -2,6 +2,8 @@ package br.com.arthenyo.flash_sale_checkout.entity;
 
 import java.math.BigDecimal;
 
+import br.com.arthenyo.flash_sale_checkout.exceptions.EstoqueInsuficienteException;
+import br.com.arthenyo.flash_sale_checkout.exceptions.RegrasNegocioException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,9 +32,30 @@ public class Produto {
     }
 
     public Produto(String nome, BigDecimal preco, Integer estoque) {
+        if (estoque == null || estoque < 0) {
+            throw new RegrasNegocioException("O estoque inicial não pode ser negativo.");
+        }
         this.nome = nome;
         this.preco = preco;
         this.estoque = estoque;
+    }
+
+    public Integer baixarEstoque(Integer quantidade) {
+        if (quantidade <= 0) {
+            throw new RegrasNegocioException("A quantidade deve ser maior que zero.");
+        }
+        if (quantidade > estoque) {
+            throw new EstoqueInsuficienteException("Estoque insuficiente para o produto: " + nome);
+        }
+        estoque -= quantidade;
+        return estoque;
+    }
+
+    public void aumentarEstoque(Integer quantidade) {
+        if (quantidade <= 0) {
+            throw new RegrasNegocioException("A quantidade deve ser maior que zero.");
+        }
+        estoque += quantidade;
     }
 
     public Long getId() {
@@ -58,12 +81,5 @@ public class Produto {
     public Integer getEstoque() {
         return estoque;
     }
-
-    public void setEstoque(Integer estoque) {
-        this.estoque = estoque;
-    }
-
-    
-    
 }
 
