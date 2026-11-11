@@ -23,7 +23,7 @@ Este projeto reproduz o problema de propósito e depois resolve, etapa por etapa
 
 | Tecnologia | Papel no projeto |
 |---|---|
-| **Java + Spring Boot** | API de vendas |
+| **Java 25 LTS + Spring Boot** | API de vendas |
 | **PostgreSQL** | Banco de dados de produtos e pedidos |
 | **Redis** | Reserva de estoque em memória |
 | **RabbitMQ** | Fila para processar pedidos sem sobrecarregar o banco |
