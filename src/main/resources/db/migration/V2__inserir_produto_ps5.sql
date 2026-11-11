@@ -1,0 +1,1 @@
+INSERT INTO produto (nome, preco, estoque) VALUES ('PlayStation 5', 4999.99, 100);
