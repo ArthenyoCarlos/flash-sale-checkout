@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:18
@@ -13,6 +11,15 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql
+  
+  k6:
+    image: grafana/k6:1.0.0
+    profiles: ["testes"]
+    volumes:
+      - ./k6:/scripts
+    environment:
+      BASE_URL: http://host.docker.internal:8080
+
 
 volumes:
   pgdata:
