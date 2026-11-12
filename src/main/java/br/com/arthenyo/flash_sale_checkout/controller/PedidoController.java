@@ -23,8 +23,8 @@ public class PedidoController {
     }
 
     @PostMapping("{produtoId}") 
-    public ResponseEntity<PedidoResponseDTO> saveCompra(@PathVariable Long produtoId) {
-        PedidoResponseDTO pedidoResponseDTO = pedidoService.saveCompra(produtoId);
+    public ResponseEntity<PedidoResponseDTO> realizarCompra(@PathVariable Long produtoId) {
+        PedidoResponseDTO pedidoResponseDTO = pedidoService.realizarCompra(produtoId);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(pedidoResponseDTO.id()).toUri();
         return ResponseEntity.created(uri).body(pedidoResponseDTO);
