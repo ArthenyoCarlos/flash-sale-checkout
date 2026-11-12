@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 
 @Entity 
 @Table (name = "produto")
@@ -27,6 +28,10 @@ public class Produto {
 
     @Column(nullable = false)
     private Integer estoque;
+
+    @Version 
+    @Column(nullable = false)
+    private Integer versao;
 
     protected Produto() {
     }
@@ -80,6 +85,10 @@ public class Produto {
 
     public Integer getEstoque() {
         return estoque;
+    }
+
+    public Integer getVersao() {
+        return versao;
     }
 }
 
