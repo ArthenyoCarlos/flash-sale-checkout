@@ -10,21 +10,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.arthenyo.flash_sale_checkout.dto.PedidoResponseDTO;
-import br.com.arthenyo.flash_sale_checkout.service.CompraService;
+import br.com.arthenyo.flash_sale_checkout.service.PedidoService;
 
 @RestController 
 @RequestMapping ("/pedidos")
 public class PedidoController {
 
-    private final CompraService compraService;
+    private final PedidoService pedidoService;
 
-    public PedidoController(CompraService compraService) {
-        this.compraService = compraService;
+    public PedidoController(PedidoService pedidoService) {
+        this.pedidoService = pedidoService;
     }
 
     @PostMapping("{produtoId}") 
     public ResponseEntity<PedidoResponseDTO> realizarCompra(@PathVariable Long produtoId) {
-        PedidoResponseDTO pedidoResponseDTO = compraService.comprar(produtoId);
+        PedidoResponseDTO pedidoResponseDTO = pedidoService.realizarCompra(produtoId);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(pedidoResponseDTO.id()).toUri();
         return ResponseEntity.created(uri).body(pedidoResponseDTO);
