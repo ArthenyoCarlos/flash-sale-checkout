@@ -11,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.arthenyo.flash_sale_checkout.dto.PedidoResponseDTO;
 import br.com.arthenyo.flash_sale_checkout.service.CompraService;
-import br.com.arthenyo.flash_sale_checkout.service.PedidoService;
 
 @RestController 
 @RequestMapping ("/pedidos")

@@ -23,7 +23,7 @@ public class PedidoService {
 
     @Transactional
     public PedidoResponseDTO realizarCompra(Long produtoId){
-        Produto produto = produtoRepository.findById(produtoId)
+        Produto produto = produtoRepository.buscarPorIdParaCompra(produtoId)
                 .orElseThrow(() -> new ObjetoNaoEncontradoException("Produto não encontrado com o ID: " + produtoId));
 
         produto.baixarEstoque(1);
