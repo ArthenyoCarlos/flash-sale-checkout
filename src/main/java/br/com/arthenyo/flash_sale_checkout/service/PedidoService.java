@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.arthenyo.flash_sale_checkout.dto.PedidoResponseDTO;
 import br.com.arthenyo.flash_sale_checkout.entity.Pedido;
 import br.com.arthenyo.flash_sale_checkout.entity.Produto;
+import br.com.arthenyo.flash_sale_checkout.exceptions.EstoqueInsuficienteException;
 import br.com.arthenyo.flash_sale_checkout.exceptions.ObjetoNaoEncontradoException;
 import br.com.arthenyo.flash_sale_checkout.repository.PedidoRepository;
 import br.com.arthenyo.flash_sale_checkout.repository.ProdutoRepository;
@@ -23,15 +24,21 @@ public class PedidoService {
 
     @Transactional
     public PedidoResponseDTO realizarCompra(Long produtoId){
-        Produto produto = produtoRepository.buscarPorIdParaCompra(produtoId)
-                .orElseThrow(() -> new ObjetoNaoEncontradoException("Produto não encontrado com o ID: " + produtoId));
+        int linhasAlteradas = produtoRepository.baixarEstoqueSeDisponivel(produtoId);
 
-        produto.baixarEstoque(1);
-        produtoRepository.save(produto);
+        if(linhasAlteradas == 0){
+            if(!produtoRepository.existsById(produtoId)){
+                throw new ObjetoNaoEncontradoException("Produto não encontrado com o ID: " + produtoId);
+            }
+            throw new EstoqueInsuficienteException("Estoque insuficiente para o produto: " + produtoId); 
+        }
 
+        Produto produto = produtoRepository.getReferenceById(produtoId);
         Pedido pedido = new Pedido(produto);
         pedidoRepository.save(pedido);
         return new PedidoResponseDTO(pedido);
     }
+
+
 
 }

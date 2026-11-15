@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,5 +16,10 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT p FROM Produto p WHERE p.id = :id")
     Optional<Produto> buscarPorIdParaCompra(@Param("id") Long id);
+
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Produto p SET p.estoque = p.estoque - 1, p.versao = p.versao + 1 WHERE p.id = :id AND p.estoque > 0")
+    int baixarEstoqueSeDisponivel(@Param("id") Long id);
     
 }
